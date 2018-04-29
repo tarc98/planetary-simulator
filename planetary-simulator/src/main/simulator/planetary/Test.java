@@ -1,4 +1,4 @@
-package main.symulator.planetary;
+package main.simulator.planetary;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
