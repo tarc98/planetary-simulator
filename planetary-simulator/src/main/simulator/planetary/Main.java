@@ -22,6 +22,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Sphere;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -77,16 +79,39 @@ public class Main extends Application {
         menuBar.addMenu("Help");
         menuBar.addMenuItem("Help", "About", null);
 
-        AnchorPane center=new AnchorPane();
+        Pane center=new Pane();
         HBox right=new HBox();
         right.setMinWidth(250);
         Separator sep1=new Separator(Orientation.VERTICAL);
 
-        right.getChildren().addAll(sep1);
+        right.getChildren().addAll(sep1, new ListView<>());
 
         VBox bottom=new VBox();
         bottom.setMinHeight(15);
         bottom.getChildren().addAll(new Separator(Orientation.HORIZONTAL));
+
+        ContextMenu c=new ContextMenu();
+        MenuItem add=new MenuItem("Add Entity");
+        add.setOnAction(event -> {
+            Stage st=new Stage();
+            Pane lay=new Pane();
+            Scene sc=new Scene(lay, 400, 400);
+            st.setScene(sc);
+            st.setTitle("ALL PARAMETERS HERE");
+            st.show();
+        });
+        MenuItem rem=new MenuItem("Remove Entity");
+        rem.setDisable(true);
+        c.getItems().addAll(add, rem);
+
+        center.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+
+        });
+        center.setOnContextMenuRequested(event -> {
+            x=event.getX();
+            y=event.getY();
+            c.show(center, event.getScreenX(), event.getScreenY());
+        });
 
         layout.setTop(menuBar);
         layout.setRight(right);
