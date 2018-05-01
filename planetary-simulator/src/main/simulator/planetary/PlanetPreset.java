@@ -1,8 +1,9 @@
 package main.simulator.planetary;
 
-// http://www.physlink.com/Reference/AstroPhysical.cfm
-
 /*
+http://www.physlink.com/Reference/AstroPhysical.cfm
+
+
     mass | kg
     radius - adius of planet | m
     RADIUS - distance to ORIGIN | m
@@ -21,7 +22,7 @@ final public class PlanetPreset {
     double PEROID;
 
     public static final PlanetPreset
-            OurSun = new PlanetPreset(10.99e+307,6.96e+108,0,0),              //ORIGIN
+            OurSun = new PlanetPreset(1.99e+30,6.96e+8,0,0),              //ORIGIN
             Mercury = new PlanetPreset(3.18e+23,2.43e+6,5.79e+10,7.60e+6),
             Venus = new PlanetPreset(4.88e+24,6.06e+6,1.08e+11,1.94e+7),
             Earth = new PlanetPreset(5.98e+24,6.37e+6,1.496e+11,3.156e+7),
