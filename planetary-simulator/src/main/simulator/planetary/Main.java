@@ -146,12 +146,14 @@ public class Main extends Application {
                 public void handle(ActionEvent t) {
 
                     PS.Simulate(timePeroid);
-                    //while(PS.ConnectCollidedPlanets());
+                    while(PS.ConnectCollidedPlanets());
                     center.getChildren().clear();
 
                     for(int i=0; i<PS.planets.size(); i++)
                     {
-                        Circle ball = new Circle(PS.planets.get(i).radius * SCALE, PS.planets.get(i).c);
+                        //Circle ball = new Circle(PS.planets.get(i).radius * SCALE, PS.planets.get(i).c);
+                        Circle ball = new Circle(10, PS.planets.get(i).c);
+
                         ball.relocate(PS.planets.get(i).x_pos * SCALE, PS.planets.get(i).y_pos * SCALE);
                         center.getChildren().add(ball);
                     }

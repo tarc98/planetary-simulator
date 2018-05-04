@@ -126,6 +126,8 @@ public class PlanetarySystem {
 
     boolean ConnectCollidedPlanets(){ // return true if something was connected
         ArrayList<ArrayList<Integer>> neighbors = new ArrayList<ArrayList<Integer>>(planets.size());
+        for( Planet i : planets)
+            neighbors.add(new ArrayList<Integer>());
 
         boolean isCollision = false;
         for(int i=0; i<planets.size(); i++){
@@ -194,7 +196,8 @@ public class PlanetarySystem {
             }
         }
         for(int i=deletePlanets.length-1; i>=0; i--){
-            planets.remove(i);
+            if(deletePlanets[i])
+                planets.remove(i);
         }
 
         return true;
