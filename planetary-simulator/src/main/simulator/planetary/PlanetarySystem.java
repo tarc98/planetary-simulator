@@ -8,14 +8,12 @@ public class PlanetarySystem {
     List<Planet> planetsNext;
     final static double G = 6.67408e-11; // m^3/(kg*s^2)
 
-    PlanetarySystem()
-    {
+    PlanetarySystem(){
         planets = new ArrayList<>();
         planetsNext = new ArrayList<>();
     }
 
-    void AddPlanet(Planet p)
-    {
+    void AddPlanet(Planet p){
         planets.add(p);
         planetsNext.add(new Planet());
     }
@@ -83,8 +81,7 @@ public class PlanetarySystem {
             planetsNext.get(i).z_vel = planets.get(i).z_vel + Fz*time/planets.get(i).mass;
         }
 
-        for(int i=0; i<planetsNext.size(); i++)
-        {
+        for(int i=0; i<planetsNext.size(); i++){
             planets.get(i).x_pos = planetsNext.get(i).x_pos;
             planets.get(i).y_pos = planetsNext.get(i).y_pos;
             planets.get(i).z_pos = planetsNext.get(i).z_pos;
@@ -98,8 +95,7 @@ public class PlanetarySystem {
         planetsNext = swap;*/
     }
 
-    void Draw()
-    {
+    void Draw(){
         for(Planet i : planets){
             System.out.println("x="+i.x_pos + ", y=" + i.y_pos + ", z=" + i.z_pos +"   Vx="+i.x_vel + ", Vy=" + i.y_vel + ", Vz=" + i.z_vel);
         }

@@ -9,7 +9,7 @@ public class Test123 {
         PS.AddPlanet(new Planet(-PlanetPreset.Mercury.RADIUS, 0, 0, 0, 0, 0, Planet.NAME.OurSun));
 
         long currentTime = 0;
-        double timePeroid = 864; // 0.01 day
+        double timePeroid = 86400; // 1 day
 
         System.out.println("Days : "+ 0);
         PS.Draw();

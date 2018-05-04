@@ -32,6 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.random;
+import static java.lang.Math.sqrt;
+
+
+import javafx.geometry.Bounds;
+import java.util.Random;
+
 
 public class Main extends Application {
 
@@ -104,9 +110,30 @@ public class Main extends Application {
         rem.setDisable(true);
         c.getItems().addAll(add, rem);
 
-        center.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+        /*
+            STARTING VALUES BEGIN
+        */
+        Random rand = new Random();
 
+        PlanetarySystem PS = new PlanetarySystem();
+        List<Circle> planetBalls= new ArrayList<Circle>();
+
+        double SCALE = 1e-9; // around 1 Mercury RADIUS per default screen width
+        double timePeroid = 8640; // 0.1 day
+        double MILLIS = 10;
+        //    STARTING VALUES END
+
+        center.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            PS.AddPlanet(new Planet(event.getX()/SCALE, event.getY()/SCALE, 0, 0,0,0,Planet.NAME.OurSun ));
+            float r = rand.nextFloat();
+            float g = rand.nextFloat();
+            float b = rand.nextFloat();
+            Circle ball = new Circle(10, Color.color(r,g,b));
+            ball.relocate(event.getX(), event.getY());
+            planetBalls.add(ball);
+            center.getChildren().add(ball);
         });
+
         center.setOnContextMenuRequested(event -> {
             x=event.getX();
             y=event.getY();
@@ -120,5 +147,22 @@ public class Main extends Application {
 
         stage.setScene(scene);
         stage.show();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(MILLIS),
+            new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent t) {
+                    //move the ball
+                    PS.Simulate(timePeroid);
+
+                    for(int i=0; i < planetBalls.size(); i++)
+                    {
+                        planetBalls.get(i).setLayoutX(PS.planets.get(i).x_pos * SCALE);
+                        planetBalls.get(i).setLayoutY(PS.planets.get(i).y_pos * SCALE);
+                    }
+                }
+            }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 }
