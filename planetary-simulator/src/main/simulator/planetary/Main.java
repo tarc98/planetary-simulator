@@ -116,22 +116,14 @@ public class Main extends Application {
         Random rand = new Random();
 
         PlanetarySystem PS = new PlanetarySystem();
-        List<Circle> planetBalls= new ArrayList<Circle>();
 
         double SCALE = 1e-9; // around 1 Mercury RADIUS per default screen width
-        double timePeroid = 8640; // 0.1 day
-        double MILLIS = 10;
+        double timePeroid = 864; // 00.1 day
+        double MILLIS = 1;
         //    STARTING VALUES END
 
         center.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             PS.AddPlanet(new Planet(event.getX()/SCALE, event.getY()/SCALE, 0, 0,0,0,Planet.NAME.OurSun ));
-            float r = rand.nextFloat();
-            float g = rand.nextFloat();
-            float b = rand.nextFloat();
-            Circle ball = new Circle(10, Color.color(r,g,b));
-            ball.relocate(event.getX(), event.getY());
-            planetBalls.add(ball);
-            center.getChildren().add(ball);
         });
 
         center.setOnContextMenuRequested(event -> {
@@ -152,13 +144,16 @@ public class Main extends Application {
             new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent t) {
-                    //move the ball
-                    PS.Simulate(timePeroid);
 
-                    for(int i=0; i < planetBalls.size(); i++)
+                    PS.Simulate(timePeroid);
+                    //while(PS.ConnectCollidedPlanets());
+                    center.getChildren().clear();
+
+                    for(int i=0; i<PS.planets.size(); i++)
                     {
-                        planetBalls.get(i).setLayoutX(PS.planets.get(i).x_pos * SCALE);
-                        planetBalls.get(i).setLayoutY(PS.planets.get(i).y_pos * SCALE);
+                        Circle ball = new Circle(PS.planets.get(i).radius * SCALE, PS.planets.get(i).c);
+                        ball.relocate(PS.planets.get(i).x_pos * SCALE, PS.planets.get(i).y_pos * SCALE);
+                        center.getChildren().add(ball);
                     }
                 }
             }));

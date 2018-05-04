@@ -1,6 +1,12 @@
 package main.simulator.planetary;
 
+import javafx.scene.paint.Color;
+import java.util.Random;
+
+
 public class Planet {
+    final static double PI = 3.14159265359;
+
     double x_pos;
     double y_pos;
     double z_pos;
@@ -12,15 +18,25 @@ public class Planet {
     double mass;
     double radius;
 
-    // roation ???
+    String name;
+    Color c;
+
+    double V;
+    double d; // destiny of planet
+
+    void SetProperties()
+    {
+        V = 4/3*PI*radius*radius*radius;
+        d = mass/V;
+    }
 
     enum NAME{
         OurSun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto, Empty
     }
-    PlanetPreset setPlanetRef(NAME name){
+    PlanetPreset setPlanetRef(NAME presetName){
         PlanetPreset ref;
 
-        switch (name){
+        switch (presetName){
             case OurSun:
                 ref = PlanetPreset.OurSun;
                 break;
@@ -68,6 +84,11 @@ public class Planet {
 
         mass = 0;
         radius = 0;
+
+        name = "";
+        c = Color.color(0,0,0);
+
+        SetProperties();
     }
     Planet(double x_pos, double y_pos, double z_pos, double x_vel, double y_vel, double z_vel, double mass, double radius){
         this.x_pos = x_pos;
@@ -80,9 +101,18 @@ public class Planet {
 
         this.mass = mass;
         this.radius = radius;
+
+        name = "";
+        Random rand = new Random();
+        float r = rand.nextFloat();
+        float g = rand.nextFloat();
+        float b = rand.nextFloat();
+        c = Color.color(r,g,b);
+
+        SetProperties();
     }
 
-    Planet(double x_pos, double y_pos, double z_pos, double x_vel, double y_vel, double z_vel, NAME name){
+    Planet(double x_pos, double y_pos, double z_pos, double x_vel, double y_vel, double z_vel, double mass, double radius, String name, Color c){
         this.x_pos = x_pos;
         this.y_pos = y_pos;
         this.z_pos = z_pos;
@@ -91,14 +121,41 @@ public class Planet {
         this.y_vel = y_vel;
         this.z_vel = z_vel;
 
-        PlanetPreset ref = setPlanetRef(name);
+        this.mass = mass;
+        this.radius = radius;
+
+        this.name = name;
+        this.c = c;
+
+        SetProperties();
+    }
+
+    Planet(double x_pos, double y_pos, double z_pos, double x_vel, double y_vel, double z_vel, NAME presetName){
+        this.x_pos = x_pos;
+        this.y_pos = y_pos;
+        this.z_pos = z_pos;
+
+        this.x_vel = x_vel;
+        this.y_vel = y_vel;
+        this.z_vel = z_vel;
+
+        PlanetPreset ref = setPlanetRef(presetName);
         mass = ref.mass;
         radius = ref.radius;
+
+        name = "";
+        Random rand = new Random();
+        float r = rand.nextFloat();
+        float g = rand.nextFloat();
+        float b = rand.nextFloat();
+        c = Color.color(r,g,b);
+
+        SetProperties();
     }
 
 
-
-    Planet(double Xy_pos, double Zxy_pos, double xy_cross, boolean toCross, NAME name){ // only perpendicular velocity vectors to origin
+    //                  NOT FINISHED
+    Planet(double Xy_pos, double Zxy_pos, double xy_cross, boolean toCross, NAME presetName){ // only perpendicular velocity vectors to origin
         /*
         Xy(x-asix into y axis), Zxy(z-axis into xy-field), angle_vel right s
         xy_cross - angle where orbit crosses xy field
@@ -116,7 +173,7 @@ public class Planet {
         wyliczyć składowe wektora
         */
 
-        PlanetPreset ref = setPlanetRef(name);
+        PlanetPreset ref = setPlanetRef(presetName);
         double RADIUS = ref.RADIUS;
         x_pos = RADIUS * Math.sin(Xy_pos) * Math.sin(Zxy_pos);
         y_pos = RADIUS * Math.cos(Xy_pos) * Math.sin(Zxy_pos);
@@ -127,7 +184,7 @@ public class Planet {
         double z_cross = 0;
         //                                                          CHECK IF POINTS ARE NOT ON A DIAMETER ON CIRCLE OR IT IS NOT SAME POINT
 
-
+        // ???
 
 
     }
