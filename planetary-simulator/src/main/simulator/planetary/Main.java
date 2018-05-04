@@ -118,7 +118,7 @@ public class Main extends Application {
         PlanetarySystem PS = new PlanetarySystem();
 
         double SCALE = 1e-9; // around 1 Mercury RADIUS per default screen width
-        double timePeroid = 864; // 00.1 day
+        double timePeroid = 864; // 0.01 day
         double MILLIS = 1;
         //    STARTING VALUES END
 
@@ -151,11 +151,13 @@ public class Main extends Application {
 
                     for(int i=0; i<PS.planets.size(); i++)
                     {
-                        //Circle ball = new Circle(PS.planets.get(i).radius * SCALE, PS.planets.get(i).c);
-                        Circle ball = new Circle(10, PS.planets.get(i).c);
+                        //Circle ball = new Circle(10, Color.color(0,0,0));
+                        Circle ball = new Circle(PS.planets.get(i).radius * SCALE*10, PS.planets.get(i).c);
+                        //Circle ball = new Circle(10, PS.planets.get(i).c);
 
                         ball.relocate(PS.planets.get(i).x_pos * SCALE, PS.planets.get(i).y_pos * SCALE);
                         center.getChildren().add(ball);
+                        //System.out.println(PS.planets.size());
                     }
                 }
             }));

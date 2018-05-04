@@ -12,24 +12,6 @@ public class PlanetarySystem {
         return Math.sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by)+(az-bz)*(az-bz));
     }
 
-    // https://rosettacode.org/wiki/Nth_root
-    public static double nthroot(int n, double A) {
-        return nthroot(n, A, .001);
-    }
-    public static double nthroot(int n, double A, double p) {
-        if(A < 0) {
-            return -1;
-        } else if(A == 0) {
-            return 0;
-        }
-        double x_prev = A;
-        double x = A / n;
-        while(Math.abs(x - x_prev) > p){
-            x_prev = x;
-            x = ((n - 1.0) * x + A / Math.pow(x, n - 1.0)) / n;
-        }
-        return x;
-    }
 
     List<Planet> planets;
 
@@ -116,10 +98,10 @@ public class PlanetarySystem {
 
     void DFS(int index, ArrayList<ArrayList<Integer>> neighbors, boolean [] visited, ArrayList<Integer> component){
         if(!visited[index]) {
+            visited[index] = true;
+            component.add(index);
             for (int j = 0; j < neighbors.get(index).size(); j++) {
-                visited[neighbors.get(index).get(j)] = true;
-                component.add(neighbors.get(index).get(j));
-                DFS(j, neighbors, visited, component);
+                DFS(neighbors.get(index).get(j), neighbors, visited, component);
             }
         }
     }
@@ -143,19 +125,34 @@ public class PlanetarySystem {
         }
         if(!isCollision)
             return false;
+        /*
+        for(int i=0; i<neighbors.size(); i++){
+            System.out.print(i+": ");
+            for(int j=0; j<neighbors.get(i).size(); j++){
+                System.out.print(neighbors.get(i).get(j) +",");
+            }
+            System.out.println();
+        }
+        */
 
         ArrayList<ArrayList<Integer>> components = new ArrayList<ArrayList<Integer>>(planets.size());
         boolean[] visited = new boolean[planets.size()]; // default false
 
         for(int i=0; i<visited.length; i++){
             if(!visited[i]) {
-                visited[i] = true;
                 ArrayList<Integer> component = new ArrayList<Integer>();
-                component.add(i);
                 DFS(i, neighbors, visited, component);
                 components.add(component);
             }
         }
+        /*
+        for(int i=0; i<components.size(); i++){
+            System.out.print("C" +i+": ");
+            for(int j=0; j<components.get(i).size(); j++){
+                System.out.print(components.get(i).get(j) +",");
+            }
+            System.out.println();
+        }*/
 
         boolean[] deletePlanets = new boolean[planets.size()];
         for(ArrayList<Integer> connected : components){
@@ -186,7 +183,7 @@ public class PlanetarySystem {
                     V += planets.get(i).V;
 
                     // V=4/3*PI*r*r*r   ->   r=(V*3/4/PI)^(1/3)
-                    Radius = nthroot(3,V*3/4/PI, 0.001);
+                    Radius = Math.pow(V*3.0/4.0/PI, 1.0/3.0);
                     C = Color.color(Cr/V, Cg/V,Cb/V);
 
                     deletePlanets[i] = true;
@@ -195,10 +192,14 @@ public class PlanetarySystem {
                 planets.add(new Planet(Qx/Mass, Qy/Mass, Qz/Mass, Px/Mass, Py/Mass, Pz/Mass, Mass, Radius, "", C));
             }
         }
+
         for(int i=deletePlanets.length-1; i>=0; i--){
+            //System.out.print(deletePlanets[i]);
             if(deletePlanets[i])
                 planets.remove(i);
         }
+        //System.out.println();
+
 
         return true;
     }

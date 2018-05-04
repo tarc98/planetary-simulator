@@ -26,7 +26,7 @@ public class Planet {
 
     void SetProperties()
     {
-        V = 4/3*PI*radius*radius*radius;
+        V = 4.0/3.0*PI*radius*radius*radius;
         d = mass/V;
     }
 
