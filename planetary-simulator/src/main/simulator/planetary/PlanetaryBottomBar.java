@@ -8,8 +8,10 @@ public class PlanetaryBottomBar {
     public static Label label;
 
     public static void update() {
-        days+=GV.animationSpeed*GV.timePeroid/86400;
-        label.setText(days.intValue() + " days");
+        if(GV.animate) {
+            days += GV.animationSpeed * GV.timePeroid / 86400;
+            label.setText(days.intValue() + " days " + ((int) (days * 24)) % 24 + " hours");
+        }
     }
 
     public static void setValues(Double _days, Label _label) {
