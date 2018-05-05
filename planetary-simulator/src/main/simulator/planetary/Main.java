@@ -52,7 +52,7 @@ public class Main extends Application {
 
     public static PlanetaryMenuBar menuBar;
     public static HBox rightBox;
-    public static VBox bottomBox;
+    public static Pane bottomBox;
     public static Pane mainBox;
 
 
@@ -80,7 +80,6 @@ public class Main extends Application {
         layout.setBottom(bottomBox);
 
         stage.setScene(scene);
-
         stage.show();
     }
 }

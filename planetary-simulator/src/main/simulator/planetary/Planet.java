@@ -1,6 +1,8 @@
 package main.simulator.planetary;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
 import java.util.Random;
 
 
@@ -18,6 +20,8 @@ public class Planet {
 
     String name;
     Color c;
+
+    Circle planetCircle;
 
     double V;
     double d; // destiny of planet
@@ -149,6 +153,29 @@ public class Planet {
         c = Color.color(r,g,b);
 
         SetProperties();
+    }
+
+    public Planet setPlanetCircle(Circle circle) {
+        this.planetCircle=circle;
+        return this;
+    }
+
+    public Circle getPlanetCircle() {
+        return this.planetCircle;
+    }
+
+    public Color getColor() {
+        return this.c;
+    }
+
+    public void updateCircle() {
+        Main.mainBox.getChildren().remove(planetCircle);
+        planetCircle=new Circle(x_pos*GV.SCALE, y_pos*GV.SCALE, radius*GV.SCALE*10, c);
+        Main.mainBox.getChildren().add(planetCircle);
+    }
+
+    public void removeCircle() {
+        Main.mainBox.getChildren().remove(planetCircle);
     }
 
 

@@ -3,6 +3,7 @@ package main.simulator.planetary;
 import java.util.List;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class PlanetarySystem {
     double distance(double ax, double ay, double az, double bx, double by, double bz){
@@ -185,14 +186,18 @@ public class PlanetarySystem {
                     deletePlanets[i] = true;
                 }
 
-                planets.add(new Planet(Qx/Mass, Qy/Mass, Qz/Mass, Px/Mass, Py/Mass, Pz/Mass, Mass, Radius, "", C));
+                Planet planet=new Planet(Qx/Mass, Qy/Mass, Qz/Mass, Px/Mass, Py/Mass, Pz/Mass, Mass, Radius, "", C);
+                planet.updateCircle();
+                planets.add(planet);
             }
         }
 
         for(int i=deletePlanets.length-1; i>=0; i--){
             //System.out.print(deletePlanets[i]);
-            if(deletePlanets[i])
+            if(deletePlanets[i]) {
+                planets.get(i).removeCircle();
                 planets.remove(i);
+            }
         }
         //System.out.println();
 

@@ -1,5 +1,6 @@
 package main.simulator.planetary;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -19,4 +20,11 @@ public class GlobalEvents {
             }
         });
     }
+
+    public static EventHandler<ActionEvent> closeEvent=new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Main.mainStage.close();
+        }
+    };
 }

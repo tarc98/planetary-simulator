@@ -22,7 +22,6 @@ import main.simulator.planetary.PlanetaryExceptions.MenuException;
 import java.util.Random;
 
 public class PlanetaryGUI {
-   // PlanetaryMenuBar menuBar;
 
     //Zwraca objekt typu MenuBar, który jest wyposażony w opcje
     public static PlanetaryMenuBar makePlanetaryBar() throws MenuException {
@@ -31,7 +30,7 @@ public class PlanetaryGUI {
         menuBar.addMenuItem("File", "Save...", null);
         menuBar.addMenuItem("File", "Save as...", null);
         menuBar.addSeparator("File");
-        menuBar.addMenuItem("File", "Exit", BasicEvents.closeEvent);
+        menuBar.addMenuItem("File", "Exit", GlobalEvents.closeEvent);
         menuBar.addMenu("Edit");
         menuBar.addMenuItem("Edit", "Undo", null);
         menuBar.addMenuItem("Edit", "Redo", null);
@@ -55,11 +54,15 @@ public class PlanetaryGUI {
         return box;
     }
 
-    public static VBox makeBottomBox() {
-        VBox box=new VBox();
-        box.setMinHeight(15);
+    public static Pane makeBottomBox() {
+        Double days=new Double(0);
+        Pane box=new Pane();
+        box.setMinHeight(20);
+        box.setStyle("-fx-background-color: #d0d3d4;");
+        Label label=new Label();
+        PlanetaryBottomBar.setValues(days, label);
 
-        box.getChildren().addAll();
+        box.getChildren().addAll(label);
 
         return box;
     }
