@@ -6,8 +6,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class PlanetarySystem {
-    double distance(double ax, double ay, double az, double bx, double by, double bz){
-        return Math.sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by)+(az-bz)*(az-bz));
+    double distance(double ax, double ay, double bx, double by){
+        return Math.sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by));
     }
 
     List<Planet> planets;
@@ -25,7 +25,7 @@ public class PlanetarySystem {
             for(Planet j : planets){
                 if(i==j)
                     continue;
-                double d = distance(i.x_pos, i.y_pos, i.z_pos, j.x_pos, j.y_pos, j.z_pos);
+                double d = distance(i.x_pos, i.y_pos, j.x_pos, j.y_pos);
                 if(d<i.radius+j.radius)
                     return true;
             }
@@ -41,25 +41,22 @@ public class PlanetarySystem {
         for(int i=0; i<planets.size(); i++){
             double Fx = 0;
             double Fy = 0;
-            double Fz = 0;
 
             for(int j=0; j<planets.size(); j++){
                 if(i==j)
                     continue;
                 //System.out.println(planets.get(i).x_pos+" "+planets.get(i).y_pos+" "+planets.get(i).z_pos+" "+planets.get(j).x_pos+" "+planets.get(j).y_pos+" "+planets.get(j).z_pos);
-                double d = distance(planets.get(i).x_pos, planets.get(i).y_pos, planets.get(i).z_pos, planets.get(j).x_pos, planets.get(j).y_pos, planets.get(j).z_pos);
+                double d = distance(planets.get(i).x_pos, planets.get(i).y_pos, planets.get(j).x_pos, planets.get(j).y_pos);
                 //System.out.println("d: " + d);
                 double f = GV.G*planets.get(i).mass*planets.get(j).mass/d/d;
                 //System.out.println("f: " + f);
 
                 double fx = (planets.get(j).x_pos-planets.get(i).x_pos)/d*f;
                 double fy = (planets.get(j).y_pos-planets.get(i).y_pos)/d*f;
-                double fz = (planets.get(j).z_pos-planets.get(i).z_pos)/d*f;
                 //System.out.println("fxyz: "+" "+fx+" "+fy+" "+fz);
 
                 Fx+=fx;
                 Fy+=fy;
-                Fz+=fz;
             }
             //System.out.println("F: "+" "+Fx+" "+Fy+" "+Fz);
 
@@ -76,20 +73,16 @@ public class PlanetarySystem {
 
             planetsNext.get(i).x_pos = planets.get(i).x_pos + planets.get(i).x_vel*time + Fx*time*time/2/planets.get(i).mass;
             planetsNext.get(i).y_pos = planets.get(i).y_pos + planets.get(i).y_vel*time + Fy*time*time/2/planets.get(i).mass;
-            planetsNext.get(i).z_pos = planets.get(i).z_pos + planets.get(i).z_vel*time + Fz*time*time/2/planets.get(i).mass;
 
             planetsNext.get(i).x_vel = planets.get(i).x_vel + Fx*time/planets.get(i).mass;
             planetsNext.get(i).y_vel = planets.get(i).y_vel + Fy*time/planets.get(i).mass;
-            planetsNext.get(i).z_vel = planets.get(i).z_vel + Fz*time/planets.get(i).mass;
         }
 
         for(int i=0; i<planetsNext.size(); i++){
             planets.get(i).x_pos = planetsNext.get(i).x_pos;
             planets.get(i).y_pos = planetsNext.get(i).y_pos;
-            planets.get(i).z_pos = planetsNext.get(i).z_pos;
             planets.get(i).x_vel = planetsNext.get(i).x_vel;
             planets.get(i).y_vel = planetsNext.get(i).y_vel;
-            planets.get(i).z_vel = planetsNext.get(i).z_vel;
         }
     }
 
@@ -113,7 +106,7 @@ public class PlanetarySystem {
             for(int j=0; j<planets.size(); j++){
                 if(i==j)
                     continue;
-                double d = distance(planets.get(i).x_pos, planets.get(i).y_pos, planets.get(i).z_pos, planets.get(j).x_pos, planets.get(j).y_pos, planets.get(j).z_pos);
+                double d = distance(planets.get(i).x_pos, planets.get(i).y_pos, planets.get(j).x_pos, planets.get(j).y_pos);
                 if(d<planets.get(i).radius+planets.get(j).radius){
                     neighbors.get(i).add(j);
                     isCollision = true;
@@ -154,8 +147,8 @@ public class PlanetarySystem {
         boolean[] deletePlanets = new boolean[planets.size()];
         for(ArrayList<Integer> connected : components){
             if(connected.size() > 1) {
-                double Px=0, Py=0, Pz=0; // momentum
-                double Qx=0, Qy=0, Qz=0; // Qx / Mass = middle of max x = center x of new planet
+                double Px=0, Py=0; // momentum
+                double Qx=0, Qy=0; // Qx / Mass = middle of max x = center x of new planet
                 double Cr=0, Cg=0, Cb=0; // colors
 
                 double Mass = 0;
@@ -166,11 +159,9 @@ public class PlanetarySystem {
                 for (int i : connected) {
                     Px += planets.get(i).mass * planets.get(i).x_vel;
                     Py += planets.get(i).mass * planets.get(i).y_vel;
-                    Pz += planets.get(i).mass * planets.get(i).z_vel;
 
                     Qx += planets.get(i).mass * planets.get(i).x_pos;
                     Qy += planets.get(i).mass * planets.get(i).y_pos;
-                    Qz += planets.get(i).mass * planets.get(i).z_pos;
 
                     Cr += (planets.get(i).c.getRed() * planets.get(i).V);
                     Cg += (planets.get(i).c.getGreen() * planets.get(i).V);
@@ -186,7 +177,7 @@ public class PlanetarySystem {
                     deletePlanets[i] = true;
                 }
 
-                Planet planet=new Planet(Qx/Mass, Qy/Mass, Qz/Mass, Px/Mass, Py/Mass, Pz/Mass, Mass, Radius, "", C);
+                Planet planet=new Planet(Qx/Mass, Qy/Mass, Px/Mass, Py/Mass, Mass, Radius, "", C);
                 planet.updateCircle();
                 planets.add(planet);
             }
@@ -206,7 +197,7 @@ public class PlanetarySystem {
 
     void Draw(){
         for(Planet i : planets){
-            System.out.println("x="+i.x_pos + ", y=" + i.y_pos + ", z=" + i.z_pos +"   Vx="+i.x_vel + ", Vy=" + i.y_vel + ", Vz=" + i.z_vel);
+            System.out.println("x="+i.x_pos + ", y=" + i.y_pos + "   Vx="+i.x_vel + ", Vy=" + i.y_vel);
         }
         System.out.println();
     }

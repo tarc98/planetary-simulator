@@ -9,11 +9,9 @@ import java.util.Random;
 public class Planet {
     double x_pos;
     double y_pos;
-    double z_pos;
 
     double x_vel;
     double y_vel;
-    double z_vel;
 
     double mass;
     double radius;
@@ -78,11 +76,9 @@ public class Planet {
     Planet(){
         x_pos = 0;
         y_pos = 0;
-        z_pos = 0;
 
         x_vel = 0;
         y_vel = 0;
-        z_vel = 0;
 
         mass = 0;
         radius = 0;
@@ -92,14 +88,12 @@ public class Planet {
 
         SetProperties();
     }
-    Planet(double x_pos, double y_pos, double z_pos, double x_vel, double y_vel, double z_vel, double mass, double radius){
+    Planet(double x_pos, double y_pos, double x_vel, double y_vel, double mass, double radius){
         this.x_pos = x_pos;
         this.y_pos = y_pos;
-        this.z_pos = z_pos;
 
         this.x_vel = x_vel;
         this.y_vel = y_vel;
-        this.z_vel = z_vel;
 
         this.mass = mass;
         this.radius = radius;
@@ -114,14 +108,12 @@ public class Planet {
         SetProperties();
     }
 
-    Planet(double x_pos, double y_pos, double z_pos, double x_vel, double y_vel, double z_vel, double mass, double radius, String name, Color c){
+    Planet(double x_pos, double y_pos, double x_vel, double y_vel, double mass, double radius, String name, Color c){
         this.x_pos = x_pos;
         this.y_pos = y_pos;
-        this.z_pos = z_pos;
 
         this.x_vel = x_vel;
         this.y_vel = y_vel;
-        this.z_vel = z_vel;
 
         this.mass = mass;
         this.radius = radius;
@@ -132,14 +124,12 @@ public class Planet {
         SetProperties();
     }
 
-    Planet(double x_pos, double y_pos, double z_pos, double x_vel, double y_vel, double z_vel, NAME presetName){
+    Planet(double x_pos, double y_pos, double x_vel, double y_vel, NAME presetName){
         this.x_pos = x_pos;
         this.y_pos = y_pos;
-        this.z_pos = z_pos;
 
         this.x_vel = x_vel;
         this.y_vel = y_vel;
-        this.z_vel = z_vel;
 
         PlanetPreset ref = setPlanetRef(presetName);
         mass = ref.mass;
@@ -202,7 +192,6 @@ public class Planet {
         double RADIUS = ref.RADIUS;
         x_pos = RADIUS * Math.sin(Xy_pos) * Math.sin(Zxy_pos);
         y_pos = RADIUS * Math.cos(Xy_pos) * Math.sin(Zxy_pos);
-        z_pos = RADIUS * Math.cos(Zxy_pos);
 
         double x_cross = RADIUS * Math.sin(xy_cross);
         double y_cross = RADIUS * Math.cos(xy_cross);

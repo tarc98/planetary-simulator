@@ -26,7 +26,7 @@ public class MainBox {
     public static void addEvents(PlanetarySystem PS, Pane window) {
         window.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if(event.getButton()==MouseButton.PRIMARY) {
-                Planet planet=new Planet(event.getX() / GV.SCALE, event.getY() / GV.SCALE, 0, 0, 0, 0, Planet.NAME.OurSun);
+                Planet planet=new Planet(event.getX() / GV.SCALE, event.getY() / GV.SCALE, 0, 0, Planet.NAME.OurSun);
                 planet.updateCircle();
                 PS.AddPlanet(planet);
 

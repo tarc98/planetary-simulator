@@ -5,8 +5,8 @@ import java.io.InputStreamReader;
 public class Test123 {
     public static void main(String[] args) {
         PlanetarySystem PS = new PlanetarySystem();
-        PS.AddPlanet(new Planet(PlanetPreset.Mercury.RADIUS/10, 0, 0, 0, 0, 0, Planet.NAME.OurSun));
-        PS.AddPlanet(new Planet(-PlanetPreset.Mercury.RADIUS/10, 0, 0, 0, 0, 0, Planet.NAME.OurSun));
+        PS.AddPlanet(new Planet(PlanetPreset.Mercury.RADIUS/10, 0, 0, 0, Planet.NAME.OurSun));
+        PS.AddPlanet(new Planet(-PlanetPreset.Mercury.RADIUS/10, 0, 0, 0,  Planet.NAME.OurSun));
 
         long currentTime = 0;
         double timePeroid = 864; // 0.01 day

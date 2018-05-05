@@ -42,7 +42,7 @@ import java.util.Random;
 
 public class Main extends Application {
     public final String TITLE="Planetary Simulator";
-    public final String VERSION="0.1";
+    public final String VERSION="0.2";
     public int width=1280;
     public int height=720;
     public Color background=Color.LIGHTGREY;
