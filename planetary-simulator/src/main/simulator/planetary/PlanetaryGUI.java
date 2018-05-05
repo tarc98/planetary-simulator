@@ -101,36 +101,15 @@ public class PlanetaryGUI {
         center.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             PS.AddPlanet(new Planet(event.getX()/SCALE, event.getY()/SCALE, 0, 0,0,0,Planet.NAME.OurSun ));
         });
-        ContextMenu c=PlanetaryGUI.makeContextMenu();
 
         EventHandler<ContextMenuEvent> contextMenuEvent=PlanetaryGUI.onContextMenuMainBoxEventHandler();
         center.setOnContextMenuRequested(contextMenuEvent);
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(MILLIS),
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent t) {
-
-                        PS.Simulate(timePeroid);
-                        while(PS.ConnectCollidedPlanets());
-                        center.getChildren().clear();
-
-                        for(int i=0; i<PS.planets.size(); i++)
-                        {
-                            //Circle ball = new Circle(10, Color.color(0,0,0));
-                            Circle ball = new Circle(PS.planets.get(i).radius * SCALE*10, PS.planets.get(i).c);
-                            //Circle ball = new Circle(10, PS.planets.get(i).c);
-
-                            ball.relocate(PS.planets.get(i).x_pos * SCALE, PS.planets.get(i).y_pos * SCALE);
-                            center.getChildren().add(ball);
-                            //System.out.println(PS.planets.size());
-                        }
-                    }
-                }));
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(MILLIS), e->{
+            MainBox.update(PS, center, timePeroid, SCALE);
+        }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
-
         return center;
     }
 }
