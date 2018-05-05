@@ -98,9 +98,7 @@ public class PlanetaryGUI {
         double MILLIS = 1;
         //    STARTING VALUES END
 
-        center.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-            PS.AddPlanet(new Planet(event.getX()/SCALE, event.getY()/SCALE, 0, 0,0,0,Planet.NAME.OurSun ));
-        });
+        MainBox.addEvents(PS, center, SCALE);
 
         EventHandler<ContextMenuEvent> contextMenuEvent=PlanetaryGUI.onContextMenuMainBoxEventHandler();
         center.setOnContextMenuRequested(contextMenuEvent);
@@ -108,6 +106,7 @@ public class PlanetaryGUI {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(MILLIS), e->{
             MainBox.update(PS, center, timePeroid, SCALE);
         }));
+
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         return center;

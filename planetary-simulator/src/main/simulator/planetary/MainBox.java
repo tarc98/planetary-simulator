@@ -1,6 +1,7 @@
 package main.simulator.planetary;
 
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
@@ -16,5 +17,11 @@ public class MainBox {
             ball.relocate(PS.planets.get(i).x_pos * SCALE, PS.planets.get(i).y_pos * SCALE);
             window.getChildren().add(ball);
         }
+    }
+
+    public static void addEvents(PlanetarySystem PS, Pane window, double SCALE) {
+        window.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            PS.AddPlanet(new Planet(event.getX()/SCALE, event.getY()/SCALE, 0, 0,0,0,Planet.NAME.OurSun ));
+        });
     }
 }
