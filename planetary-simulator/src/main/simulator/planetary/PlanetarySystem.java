@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
 public class PlanetarySystem {
-    final static double G = 6.67408e-11; // m^3/(kg*s^2)
-    final static double PI = 3.14159265359;
-
     double distance(double ax, double ay, double az, double bx, double by, double bz){
         return Math.sqrt((ax-bx)*(ax-bx)+(ay-by)*(ay-by)+(az-bz)*(az-bz));
     }
-
 
     List<Planet> planets;
 
@@ -52,7 +48,7 @@ public class PlanetarySystem {
                 //System.out.println(planets.get(i).x_pos+" "+planets.get(i).y_pos+" "+planets.get(i).z_pos+" "+planets.get(j).x_pos+" "+planets.get(j).y_pos+" "+planets.get(j).z_pos);
                 double d = distance(planets.get(i).x_pos, planets.get(i).y_pos, planets.get(i).z_pos, planets.get(j).x_pos, planets.get(j).y_pos, planets.get(j).z_pos);
                 //System.out.println("d: " + d);
-                double f=G*planets.get(i).mass*planets.get(j).mass/d/d;
+                double f = GV.G*planets.get(i).mass*planets.get(j).mass/d/d;
                 //System.out.println("f: " + f);
 
                 double fx = (planets.get(j).x_pos-planets.get(i).x_pos)/d*f;
@@ -183,7 +179,7 @@ public class PlanetarySystem {
                     V += planets.get(i).V;
 
                     // V=4/3*PI*r*r*r   ->   r=(V*3/4/PI)^(1/3)
-                    Radius = Math.pow(V*3.0/4.0/PI, 1.0/3.0);
+                    Radius = Math.pow(V*3.0/4.0/GV.PI, 1.0/3.0);
                     C = Color.color(Cr/V, Cg/V,Cb/V);
 
                     deletePlanets[i] = true;
@@ -199,7 +195,6 @@ public class PlanetarySystem {
                 planets.remove(i);
         }
         //System.out.println();
-
 
         return true;
     }

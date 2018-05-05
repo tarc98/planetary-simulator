@@ -22,7 +22,6 @@ import main.simulator.planetary.PlanetaryExceptions.MenuException;
 import java.util.Random;
 
 public class PlanetaryGUI {
-
    // PlanetaryMenuBar menuBar;
 
     //Zwraca objekt typu MenuBar, który jest wyposażony w opcje
@@ -85,26 +84,14 @@ public class PlanetaryGUI {
 
     public static Pane makeMainBox() {
         Pane center=new Pane();
-
-        /*
-            STARTING VALUES BEGIN
-        */
-        Random rand = new Random();
-
         PlanetarySystem PS = new PlanetarySystem();
-
-        double SCALE = 1e-9; // around 1 Mercury RADIUS per default screen width
-        double timePeroid = 864; // 0.01 day
-        double MILLIS = 1;
-        //    STARTING VALUES END
-
-        MainBox.addEvents(PS, center, SCALE);
+        MainBox.addEvents(PS, center);
 
         EventHandler<ContextMenuEvent> contextMenuEvent=PlanetaryGUI.onContextMenuMainBoxEventHandler();
         center.setOnContextMenuRequested(contextMenuEvent);
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(MILLIS), e->{
-            MainBox.update(PS, center, timePeroid, SCALE);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(GV.MILLIS), e->{
+            MainBox.update(PS, center);
         }));
 
         timeline.setCycleCount(Timeline.INDEFINITE);

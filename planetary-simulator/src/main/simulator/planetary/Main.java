@@ -41,7 +41,6 @@ import java.util.Random;
 
 
 public class Main extends Application {
-
     public final String TITLE="Planetary Simulator";
     public final String VERSION="0.1";
     public int width=1280;
@@ -68,6 +67,7 @@ public class Main extends Application {
 
         BorderPane layout=new BorderPane();
         Scene scene=new Scene(layout, width, height);
+        GlobalEvents.addEvents(scene);
 
         menuBar=PlanetaryGUI.makePlanetaryBar();
         rightBox=PlanetaryGUI.makeRightBox();
@@ -80,6 +80,7 @@ public class Main extends Application {
         layout.setBottom(bottomBox);
 
         stage.setScene(scene);
+
         stage.show();
     }
 }
