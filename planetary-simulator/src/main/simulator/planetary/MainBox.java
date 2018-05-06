@@ -16,6 +16,10 @@ public class MainBox {
     public static double startX;
     public static double startY;
     public static boolean setVelocityVector;
+    static boolean escapeLine;
+    static AtomicInteger mode;
+    static AtomicBoolean before;
+    static AtomicPlanet planet;
 
     public static void update(PlanetarySystem PS, Pane window) {
         Line line=PlanetaryGUI.line;
@@ -40,9 +44,9 @@ public class MainBox {
     }
 
     public static void addEvents(PlanetarySystem PS, Pane window) {
-        AtomicInteger mode= new AtomicInteger();
-        AtomicBoolean before=new AtomicBoolean();
-        AtomicPlanet planet=new AtomicPlanet();
+        mode= new AtomicInteger();
+        before=new AtomicBoolean();
+        planet=new AtomicPlanet();
 
         window.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
             Line line=new Line();
@@ -60,16 +64,30 @@ public class MainBox {
                     }
                 }
                 else if(mode.get()==1) {
-                    double velX=mouseX-startX;
-                    double velY=mouseY-startY;
-                    planet.get().x_vel=velX*GV.timePeroid*10;
-                    planet.get().y_vel=velY*GV.timePeroid*10;
+                    if(!escapeLine){
+                        double velX=mouseX-startX;
+                        double velY=mouseY-startY;
+                        planet.get().x_vel=velX*GV.timePeroid*10;
+                        planet.get().y_vel=velY*GV.timePeroid*10;
+                    }
                     drawLine=false;
                     GV.animate=before.get();
                     mode.set(0);
+                    escapeLine = false;
                 }
             }
+            if(e.getButton() == MouseButton.SECONDARY){
+                if(mode.get() == 1) {
+                    escapeLine = true;
+                    drawLine = false;
+                    mode.set(0);
+                    GV.animate=before.get();
+                }
+            }
+
         });
+
+
 
         window.addEventHandler(MouseEvent.MOUSE_MOVED, e->{
             mouseX=e.getX();
