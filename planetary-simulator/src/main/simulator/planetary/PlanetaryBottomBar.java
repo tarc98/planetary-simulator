@@ -1,21 +1,22 @@
 package main.simulator.planetary;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class PlanetaryBottomBar {
 
-    public static Double days;
-    public static Label label;
+    public static TextField mass;
+    public static TextField radius;
 
-    public static void update() {
-        if(GV.animate) {
-            days += GV.animationSpeed * GV.timePeroid / 86400;
-            label.setText(days.intValue() + " days " + ((int) (days * 24)) % 24 + " hours");
-        }
+    public static void setTextFields(TextField m, TextField r) {
+        mass=m;
+        radius=r;
     }
 
-    public static void setValues(Double _days, Label _label) {
-        label=_label;
-        days=_days;
+    public static double getMass() {
+        return Double.parseDouble(mass.getText());
+    }
+    public static double getRadius() {
+        return Double.parseDouble(radius.getText());
     }
 }

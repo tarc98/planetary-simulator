@@ -50,9 +50,9 @@ public class Main extends Application {
 
     public static Stage mainStage;
 
-    public static PlanetaryMenuBar menuBar;
+    public static MenuBar menuBar;
     public static HBox rightBox;
-    public static Pane bottomBox;
+    public static HBox bottomBox;
     public static Pane mainBox;
 
 

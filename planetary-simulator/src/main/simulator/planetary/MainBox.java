@@ -1,16 +1,33 @@
 package main.simulator.planetary;
 
-import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.KeyCode;
+import javafx.scene.shape.Line;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainBox {
 
+    public static boolean drawLine;
+    public static double mouseX;
+    public static double mouseY;
+    public static double startX;
+    public static double startY;
+    public static boolean setVelocityVector;
+
     public static void update(PlanetarySystem PS, Pane window) {
+        Line line=PlanetaryGUI.line;
+        Main.mainBox.getChildren().remove(line);
+        if(drawLine) {
+            line.setStartX(startX);
+            line.setStartY(startY);
+            line.setEndX(mouseX);
+            line.setEndY(mouseY);
+            Main.mainBox.getChildren().add(line);
+        }
+
         for(int i=0; i<GV.animationSpeed && GV.animate; i++) {
             while(PS.ConnectCollidedPlanets());
             PS.Simulate(GV.timePeroid);
@@ -20,17 +37,54 @@ public class MainBox {
             Planet planet=PS.planets.get(i);
             planet.updateCircle();
         }
-        PlanetaryBottomBar.update();
     }
 
     public static void addEvents(PlanetarySystem PS, Pane window) {
-        window.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-            if(event.getButton()==MouseButton.PRIMARY) {
-                Planet planet=new Planet(event.getX() / GV.SCALE, event.getY() / GV.SCALE, 0, 0, Planet.NAME.OurSun);
-                planet.updateCircle();
-                PS.AddPlanet(planet);
+        AtomicInteger mode= new AtomicInteger();
+        AtomicBoolean before=new AtomicBoolean();
+        AtomicPlanet planet=new AtomicPlanet();
 
+        window.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+            Line line=new Line();
+            EventHandler<MouseEvent> drawL=GlobalEvents.drawLine(e.getX(), e.getY(), PS, line);
+            if(e.getButton()==MouseButton.PRIMARY) {
+                if(mode.get() ==0) {
+                    planet.set(GlobalEvents.addPlanet(PS, e.getX(), e.getY()));
+                    if(setVelocityVector) {
+                        drawLine=true;
+                        startX=e.getX();
+                        startY=e.getY();
+                        before.set(GV.animate);
+                        GV.animate=false;
+                        mode.set(1);
+                    }
+                }
+                else if(mode.get()==1) {
+                    double velX=mouseX-startX;
+                    double velY=mouseY-startY;
+                    planet.get().x_vel=velX*GV.timePeroid*10;
+                    planet.get().y_vel=velY*GV.timePeroid*10;
+                    drawLine=false;
+                    GV.animate=before.get();
+                    mode.set(0);
+                }
             }
         });
+
+        window.addEventHandler(MouseEvent.MOUSE_MOVED, e->{
+            mouseX=e.getX();
+            mouseY=e.getY();
+        });
+
+            /*else if(event.getButton()==MouseButton.SECONDARY) {
+                boolean before=GV.animate;
+                GV.animate=false;
+                Planet planet=OptionWindows.planetOptionWindow(event.getX(), event.getY());
+                planet.updateCircle();
+                PS.AddPlanet(planet);
+                GV.animate=before;
+            }*/
+        /*EventHandler<ContextMenuEvent> contextMenuEvent=PlanetaryGUI.onContextMenuMainBoxEventHandler();
+        window.setOnContextMenuRequested(contextMenuEvent);*/
     }
 }

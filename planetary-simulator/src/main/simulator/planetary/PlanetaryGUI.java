@@ -5,7 +5,9 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,8 +15,10 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.simulator.planetary.PlanetaryExceptions.MenuException;
@@ -23,23 +27,31 @@ import java.util.Random;
 
 public class PlanetaryGUI {
 
+    public static TextField mass;
+    public static TextField radius;
+    public static Line line;
+    public static PlanetarySystem mainSystem;
+    public static CheckMenuItem velocityVector;
+
     //Zwraca objekt typu MenuBar, który jest wyposażony w opcje
-    public static PlanetaryMenuBar makePlanetaryBar() throws MenuException {
-        PlanetaryMenuBar menuBar=new PlanetaryMenuBar();
-        menuBar.addMenu("File");
-        menuBar.addMenuItem("File", "Save...", null);
-        menuBar.addMenuItem("File", "Save as...", null);
-        menuBar.addSeparator("File");
-        menuBar.addMenuItem("File", "Exit", GlobalEvents.closeEvent);
-        menuBar.addMenu("Edit");
-        menuBar.addMenuItem("Edit", "Undo", null);
-        menuBar.addMenuItem("Edit", "Redo", null);
-        menuBar.addSeparator("Edit");
-        menuBar.addMenuItem("Edit", "Cut", null);
-        menuBar.addMenuItem("Edit", "Copy", null);
-        menuBar.addMenuItem("Edit", "Paste", null);
-        menuBar.addMenu("Help");
-        menuBar.addMenuItem("Help", "About", null);
+    public static MenuBar makePlanetaryBar() throws MenuException {
+        MenuBar menuBar=new MenuBar();
+        Menu edit=new Menu("Edit");
+        MenuItem clear=new MenuItem("Clear");
+        CheckMenuItem velVector=new CheckMenuItem("Set velocity vector");
+
+        MainBox.setVelocityVector=true;
+        clear.setOnAction(GlobalEvents.clear());
+        velVector.setSelected(true);
+        velVector.setOnAction(e->{
+            if(MainBox.setVelocityVector==true) MainBox.setVelocityVector=false;
+            else MainBox.setVelocityVector=true;
+        });
+
+
+        edit.getItems().addAll(clear, velVector);
+
+        menuBar.getMenus().addAll(edit);
 
         return menuBar;
     }
@@ -54,15 +66,24 @@ public class PlanetaryGUI {
         return box;
     }
 
-    public static Pane makeBottomBox() {
+    public static HBox makeBottomBox() {
         Double days=new Double(0);
-        Pane box=new Pane();
-        box.setMinHeight(20);
+        HBox box=new HBox();
+        box.setMinHeight(40);
+        box.setAlignment(Pos.CENTER_LEFT);
+        box.setSpacing(20);
         box.setStyle("-fx-background-color: #d0d3d4;");
-        Label label=new Label();
-        PlanetaryBottomBar.setValues(days, label);
+        box.setPadding(new Insets(0,0,0,20));
 
-        box.getChildren().addAll(label);
+        Label massLabel=new Label("Mass: ");
+        Label radiusLabel=new Label("Radius: ");
+
+
+        mass=new TextField("1");
+        radius=new TextField("1");
+
+        PlanetaryBottomBar.setTextFields(mass, radius);
+        box.getChildren().addAll(massLabel,  mass, radiusLabel, radius);
 
         return box;
     }
@@ -87,11 +108,11 @@ public class PlanetaryGUI {
 
     public static Pane makeMainBox() {
         Pane center=new Pane();
-        PlanetarySystem PS = new PlanetarySystem();
-        MainBox.addEvents(PS, center);
+        line=new Line();
 
-        EventHandler<ContextMenuEvent> contextMenuEvent=PlanetaryGUI.onContextMenuMainBoxEventHandler();
-        center.setOnContextMenuRequested(contextMenuEvent);
+        PlanetarySystem PS = new PlanetarySystem();
+        mainSystem=PS;
+        MainBox.addEvents(PS, center);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(GV.MILLIS), e->{
             MainBox.update(PS, center);
