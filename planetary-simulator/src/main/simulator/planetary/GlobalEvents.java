@@ -14,32 +14,6 @@ import javax.swing.*;
 
 
 public class GlobalEvents {
-    public static void addEvents(Scene scene) {
-        scene.addEventHandler(KeyEvent.ANY, event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                if(!(MainBox.mode.get() == 1)) {
-                    if (GV.animate)
-                        GV.animate = false;
-                    else
-                        GV.animate = true;
-                }
-            }
-
-            if(event.getCode() == KeyCode.ESCAPE){
-                if(MainBox.mode.get() == 1)
-                {
-                    MainBox.drawLine = false;
-                    MainBox.escapeLine = true;
-                    MainBox.mode.set(0);
-                    GV.animate=MainBox.before.get();
-                }
-            }
-        });
-
-
-
-    }
-
 
     public static EventHandler<ActionEvent> closeEvent() {
         return e->{
@@ -76,5 +50,15 @@ public class GlobalEvents {
             }
             PS.planets.clear();
         };
+    }
+
+    public static void setPause() {
+        GV.animate=false;
+        PlanetaryBottomBar.playButton.setText("PLAY");
+    }
+
+    public static void setPlay() {
+        GV.animate=true;
+        PlanetaryBottomBar.playButton.setText("PAUSE");
     }
 }

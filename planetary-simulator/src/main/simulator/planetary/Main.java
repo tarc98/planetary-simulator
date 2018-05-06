@@ -50,6 +50,8 @@ public class Main extends Application {
 
     public static Stage mainStage;
 
+    public static Scene mainScene;
+
     public static MenuBar menuBar;
     public static HBox rightBox;
     public static HBox bottomBox;
@@ -67,7 +69,7 @@ public class Main extends Application {
 
         BorderPane layout=new BorderPane();
         Scene scene=new Scene(layout, width, height);
-        GlobalEvents.addEvents(scene);
+        mainScene=scene;
 
         menuBar=PlanetaryGUI.makePlanetaryBar();
         rightBox=PlanetaryGUI.makeRightBox();

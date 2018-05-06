@@ -34,7 +34,7 @@ public class MainBox {
 
         for(int i=0; i<GV.animationSpeed && GV.animate; i++) {
             while(PS.ConnectCollidedPlanets());
-            PS.Simulate(GV.timePeroid);
+            PS.Simulate(PlanetaryBottomBar.getAnimationSpeed());
         }
 
         for(int i=0; i<PS.planets.size(); i++) {
@@ -43,10 +43,31 @@ public class MainBox {
         }
     }
 
-    public static void addEvents(PlanetarySystem PS, Pane window) {
+    public static void setup(PlanetarySystem PS, Pane window) {
         mode= new AtomicInteger();
         before=new AtomicBoolean();
         planet=new AtomicPlanet();
+
+        Main.mainScene.addEventHandler(KeyEvent.ANY, event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                if(!(MainBox.mode.get() == 1)) {
+                    if (GV.animate)
+                        GlobalEvents.setPause();
+                    else
+                        GlobalEvents.setPlay();
+                }
+            }
+
+            if(event.getCode() == KeyCode.ESCAPE){
+                if(MainBox.mode.get() == 1)
+                {
+                    MainBox.drawLine = false;
+                    MainBox.escapeLine = true;
+                    MainBox.mode.set(0);
+                    GV.animate=MainBox.before.get();
+                }
+            }
+        });
 
         window.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
             Line line=new Line();

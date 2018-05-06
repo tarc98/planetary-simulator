@@ -77,13 +77,24 @@ public class PlanetaryGUI {
 
         Label massLabel=new Label("Mass: ");
         Label radiusLabel=new Label("Radius: ");
+        Label speedLabel=new Label("Speed : ");
+        Button play=new Button("PAUSE");
+        Slider speed=new Slider();
 
+        speed.setMin(1);
+        speed.setMax(60);
+        speed.setValue(30);
+        play.setMinWidth(70);
+
+        PlanetaryBottomBar.setPlayButton(play);
+        PlanetaryBottomBar.setPlayButtonEvent(play);
+        PlanetaryBottomBar.setSpeedSlider(speed);
 
         mass=new TextField("1");
         radius=new TextField("1");
 
         PlanetaryBottomBar.setTextFields(mass, radius);
-        box.getChildren().addAll(massLabel,  mass, radiusLabel, radius);
+        box.getChildren().addAll(massLabel,  mass, radiusLabel, radius, speedLabel, speed, play);
 
         return box;
     }
@@ -112,7 +123,7 @@ public class PlanetaryGUI {
 
         PlanetarySystem PS = new PlanetarySystem();
         mainSystem=PS;
-        MainBox.addEvents(PS, center);
+        MainBox.setup(PS, center);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(GV.MILLIS), e->{
             MainBox.update(PS, center);
