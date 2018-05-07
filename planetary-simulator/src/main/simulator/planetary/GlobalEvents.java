@@ -27,6 +27,7 @@ public class GlobalEvents {
                 PlanetaryBottomBar.getRadius()*PlanetPreset.OurSun.radius);
         planet.updateCircle();
         PS.AddPlanet(planet);
+        if(MainBox.showSpeed) planet.setSpeedLabel();
         return planet;
     }
 
@@ -45,6 +46,7 @@ public class GlobalEvents {
     public static EventHandler<ActionEvent> clear() {
         return e-> {
             PlanetarySystem PS=PlanetaryGUI.mainSystem;
+            PS.removeLabels();
             for (int i = 0; i < PS.planets.size(); i++) {
                 PS.planets.get(i).removeCircle();
             }
@@ -60,5 +62,16 @@ public class GlobalEvents {
     public static void setPlay() {
         GV.animate=true;
         PlanetaryBottomBar.playButton.setText("PAUSE");
+    }
+
+    public static void updateTimeLabel() {
+        GV.time+=GV.animationSpeed*PlanetaryBottomBar.getAnimationSpeed();
+        if(PlanetaryBottomBar.getAnimationSpeed()>=50) MainBox.timeLabel.setText((int) GV.time/86400 + " days");
+        else if(PlanetaryBottomBar.getAnimationSpeed()>=5) MainBox.timeLabel.setText(
+                (int) GV.time/86400 + " days " + ((int) GV.time/3600)%24 + " hours");
+        else MainBox.timeLabel.setText(
+                    (int) GV.time/86400 + " days " + ((int) GV.time/3600)%24 + " hours " + ((int) GV.time/60)%60 + " minutes");
+        Main.mainBox.getChildren().remove(MainBox.timeLabel);
+        Main.mainBox.getChildren().add(MainBox.timeLabel);
     }
 }

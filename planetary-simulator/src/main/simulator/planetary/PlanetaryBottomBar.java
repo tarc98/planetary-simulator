@@ -11,6 +11,7 @@ public class PlanetaryBottomBar {
     public static TextField radius;
     public static Button playButton;
     public static Slider speedSlider;
+    public static Slider velocityScaleSlider;
 
     public static void setTextFields(TextField m, TextField r) {
         mass=m;
@@ -23,6 +24,10 @@ public class PlanetaryBottomBar {
 
     public static void setSpeedSlider(Slider s) {
         speedSlider=s;
+    }
+
+    public static void setVelocityScaleSlider(Slider s) {
+        velocityScaleSlider=s;
     }
 
     public static double getMass() {
@@ -44,5 +49,8 @@ public class PlanetaryBottomBar {
     }
     public static double getAnimationSpeed() {
         return speedSlider.getValue()*speedSlider.getValue();
+    }
+    public static double getVelocityScale() {
+        return velocityScaleSlider.getValue()*velocityScaleSlider.getValue();
     }
 }

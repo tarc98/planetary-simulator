@@ -1,6 +1,7 @@
 package main.simulator.planetary;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -16,10 +17,12 @@ public class MainBox {
     public static double startX;
     public static double startY;
     public static boolean setVelocityVector;
+    public static boolean showSpeed;
     static boolean escapeLine;
     static AtomicInteger mode;
     static AtomicBoolean before;
     static AtomicPlanet planet;
+    public static Label timeLabel;
 
     public static void update(PlanetarySystem PS, Pane window) {
         Line line=PlanetaryGUI.line;
@@ -40,6 +43,12 @@ public class MainBox {
         for(int i=0; i<PS.planets.size(); i++) {
             Planet planet=PS.planets.get(i);
             planet.updateCircle();
+        }
+
+        GlobalEvents.updateTimeLabel();
+
+        if(showSpeed) {
+            PS.updateLabels();
         }
     }
 
@@ -88,8 +97,8 @@ public class MainBox {
                     if(!escapeLine){
                         double velX=mouseX-startX;
                         double velY=mouseY-startY;
-                        planet.get().x_vel=velX*GV.timePeroid*10;
-                        planet.get().y_vel=velY*GV.timePeroid*10;
+                        planet.get().x_vel=velX*GV.timePeroid*PlanetaryBottomBar.getVelocityScale();
+                        planet.get().y_vel=velY*GV.timePeroid*PlanetaryBottomBar.getVelocityScale();
                     }
                     drawLine=false;
                     GV.animate=before.get();

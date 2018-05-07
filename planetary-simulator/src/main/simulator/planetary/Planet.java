@@ -1,9 +1,13 @@
 package main.simulator.planetary;
 
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 
 import java.util.Random;
+
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.round;
 
 
 public class Planet {
@@ -20,6 +24,7 @@ public class Planet {
     Color c;
 
     Circle planetCircle;
+    Label speedLabel;
 
     double V;
     double d; // destiny of planet
@@ -166,6 +171,28 @@ public class Planet {
 
     public void removeCircle() {
         Main.mainBox.getChildren().remove(planetCircle);
+    }
+
+    public double getSpeed() {
+        return Math.sqrt(Math.pow(x_vel, 2)+Math.pow(y_vel,2));
+    }
+
+    public void setSpeedLabel() {
+        speedLabel=new Label(Double.toString(round(getSpeed()/1000, 2)) + " km/s");
+        speedLabel.setFont(new Font(7));
+        speedLabel.setTranslateX((x_pos+10*radius)*GV.SCALE);
+        speedLabel.setTranslateY((y_pos-10*radius)*GV.SCALE);
+        Main.mainBox.getChildren().add(speedLabel);
+    }
+
+    public void updateSpeedLabel() {
+        speedLabel.setTranslateX((x_pos+10*radius)*GV.SCALE);
+        speedLabel.setTranslateY((y_pos-10*radius)*GV.SCALE);
+        speedLabel.setText(Double.toString(round(getSpeed()/1000, 2)) + " km/s");
+    }
+
+    public void removeSpeedLabel() {
+        Main.mainBox.getChildren().remove(speedLabel);
     }
 
 

@@ -179,6 +179,7 @@ public class PlanetarySystem {
 
                 Planet planet=new Planet(Qx/Mass, Qy/Mass, Px/Mass, Py/Mass, Mass, Radius, "", C);
                 planet.updateCircle();
+                if(MainBox.showSpeed) planet.setSpeedLabel();
                 planets.add(planet);
             }
         }
@@ -187,6 +188,7 @@ public class PlanetarySystem {
             //System.out.print(deletePlanets[i]);
             if(deletePlanets[i]) {
                 planets.get(i).removeCircle();
+                planets.get(i).removeSpeedLabel();
                 planets.remove(i);
             }
         }
@@ -200,5 +202,22 @@ public class PlanetarySystem {
             System.out.println("x="+i.x_pos + ", y=" + i.y_pos + "   Vx="+i.x_vel + ", Vy=" + i.y_vel);
         }
         System.out.println();
+    }
+    public void setLabels() {
+        for(Planet p : planets) {
+            p.setSpeedLabel();
+        }
+    }
+
+    public void updateLabels() {
+        for(Planet p : planets) {
+            p.updateSpeedLabel();
+        }
+    }
+
+    public void removeLabels() {
+        for(Planet p : planets) {
+            p.removeSpeedLabel();
+        }
     }
 }

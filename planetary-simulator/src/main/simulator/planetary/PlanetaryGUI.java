@@ -19,6 +19,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.simulator.planetary.PlanetaryExceptions.MenuException;
@@ -39,17 +40,29 @@ public class PlanetaryGUI {
         Menu edit=new Menu("Edit");
         MenuItem clear=new MenuItem("Clear");
         CheckMenuItem velVector=new CheckMenuItem("Set velocity vector");
+        CheckMenuItem showSpeed=new CheckMenuItem("Show speed");
 
         MainBox.setVelocityVector=true;
         clear.setOnAction(GlobalEvents.clear());
         velVector.setSelected(true);
+        showSpeed.setSelected(false);
         velVector.setOnAction(e->{
             if(MainBox.setVelocityVector==true) MainBox.setVelocityVector=false;
             else MainBox.setVelocityVector=true;
         });
+        showSpeed.setOnAction(e->{
+            if(MainBox.showSpeed) {
+                MainBox.showSpeed=false;
+                PlanetaryGUI.mainSystem.removeLabels();
+            }
+            else {
+                MainBox.showSpeed=true;
+                PlanetaryGUI.mainSystem.setLabels();
+            }
+        });
 
 
-        edit.getItems().addAll(clear, velVector);
+        edit.getItems().addAll(clear,showSpeed, velVector);
 
         menuBar.getMenus().addAll(edit);
 
@@ -75,26 +88,34 @@ public class PlanetaryGUI {
         box.setStyle("-fx-background-color: #d0d3d4;");
         box.setPadding(new Insets(0,0,0,20));
 
-        Label massLabel=new Label("Mass: ");
-        Label radiusLabel=new Label("Radius: ");
-        Label speedLabel=new Label("Speed : ");
+        Label massLabel=new Label("Mass:");
+        Label radiusLabel=new Label("Radius:");
+        Label speedLabel=new Label("Animation\nspeed:");
+        Label velocityLabel=new Label("Speed\nscale:");
         Button play=new Button("PAUSE");
         Slider speed=new Slider();
+        Slider velocityScale=new Slider();
 
-        speed.setMin(1);
+        speed.setMin(0.5);
         speed.setMax(60);
         speed.setValue(30);
+        velocityScale.setMin(0);
+        velocityScale.setMax(10);
+        velocityScale.setValue(3);
         play.setMinWidth(70);
+        speedLabel.setFont(new Font(11));
+        velocityLabel.setFont(new Font(11));
 
         PlanetaryBottomBar.setPlayButton(play);
         PlanetaryBottomBar.setPlayButtonEvent(play);
         PlanetaryBottomBar.setSpeedSlider(speed);
+        PlanetaryBottomBar.setVelocityScaleSlider(velocityScale);
 
         mass=new TextField("1");
         radius=new TextField("1");
 
         PlanetaryBottomBar.setTextFields(mass, radius);
-        box.getChildren().addAll(massLabel,  mass, radiusLabel, radius, speedLabel, speed, play);
+        box.getChildren().addAll(massLabel,  mass, radiusLabel, radius, speedLabel, speed, velocityLabel, velocityScale, play);
 
         return box;
     }
@@ -121,6 +142,7 @@ public class PlanetaryGUI {
         Pane center=new Pane();
         line=new Line();
 
+
         PlanetarySystem PS = new PlanetarySystem();
         mainSystem=PS;
         MainBox.setup(PS, center);
@@ -131,6 +153,11 @@ public class PlanetaryGUI {
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+
+        MainBox.timeLabel=new Label();
+        MainBox.timeLabel.setTranslateX(10);
+        MainBox.timeLabel.setTranslateY(10);
+
         return center;
     }
 }
