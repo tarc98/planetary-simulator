@@ -45,7 +45,7 @@ public class MainBox {
             planet.updateCircle();
         }
 
-        GlobalEvents.updateTimeLabel();
+        if(GV.animate) GlobalEvents.updateTimeLabel();
 
         if(showSpeed) {
             PS.updateLabels();

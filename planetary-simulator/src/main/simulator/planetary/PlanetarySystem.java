@@ -178,7 +178,7 @@ public class PlanetarySystem {
                 }
 
                 Planet planet=new Planet(Qx/Mass, Qy/Mass, Px/Mass, Py/Mass, Mass, Radius, "", C);
-                planet.updateCircle();
+                planet.addCircle();
                 if(MainBox.showSpeed) planet.setSpeedLabel();
                 planets.add(planet);
             }

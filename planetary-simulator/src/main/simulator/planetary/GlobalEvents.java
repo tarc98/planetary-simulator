@@ -25,7 +25,7 @@ public class GlobalEvents {
         Planet planet=new Planet(x / GV.SCALE, y/ GV.SCALE, 0, 0,
                 PlanetaryBottomBar.getMass()*PlanetPreset.OurSun.mass,
                 PlanetaryBottomBar.getRadius()*PlanetPreset.OurSun.radius);
-        planet.updateCircle();
+        planet.addCircle();
         PS.AddPlanet(planet);
         if(MainBox.showSpeed) planet.setSpeedLabel();
         return planet;
@@ -51,6 +51,10 @@ public class GlobalEvents {
                 PS.planets.get(i).removeCircle();
             }
             PS.planets.clear();
+            GV.time=0;
+            GV.animate=true;
+            MainBox.update(PlanetaryGUI.mainSystem, Main.mainBox);
+            setPause();
         };
     }
 

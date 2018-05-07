@@ -163,10 +163,18 @@ public class Planet {
         return this.c;
     }
 
-    public void updateCircle() {
-        Main.mainBox.getChildren().remove(planetCircle);
+    public void addCircle() {
         planetCircle=new Circle(x_pos*GV.SCALE, y_pos*GV.SCALE, radius*GV.SCALE*10, c);
         Main.mainBox.getChildren().add(planetCircle);
+    }
+
+    public void updateCircle() {
+        //Main.mainBox.getChildren().remove(planetCircle);
+        //planetCircle=new Circle(x_pos*GV.SCALE, y_pos*GV.SCALE, radius*GV.SCALE*10, c);
+        //Main.mainBox.getChildren().add(planetCircle);
+        planetCircle.setCenterX(x_pos*GV.SCALE);
+        planetCircle.setCenterY(y_pos*GV.SCALE);
+        planetCircle.setRadius(radius*GV.SCALE*10);
     }
 
     public void removeCircle() {
@@ -179,7 +187,7 @@ public class Planet {
 
     public void setSpeedLabel() {
         speedLabel=new Label(Double.toString(round(getSpeed()/1000, 2)) + " km/s");
-        speedLabel.setFont(new Font(7));
+        speedLabel.setFont(new Font(9));
         speedLabel.setTranslateX((x_pos+10*radius)*GV.SCALE);
         speedLabel.setTranslateY((y_pos-10*radius)*GV.SCALE);
         Main.mainBox.getChildren().add(speedLabel);

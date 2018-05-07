@@ -34,11 +34,11 @@ public class PlanetaryGUI {
     public static PlanetarySystem mainSystem;
     public static CheckMenuItem velocityVector;
 
-    //Zwraca objekt typu MenuBar, który jest wyposażony w opcje
+    //Zwraca objekt typu MenuBar, który jest wyposażony w opcji
     public static MenuBar makePlanetaryBar() throws MenuException {
         MenuBar menuBar=new MenuBar();
         Menu edit=new Menu("Edit");
-        MenuItem clear=new MenuItem("Clear");
+        MenuItem clear=new MenuItem("Reset");
         CheckMenuItem velVector=new CheckMenuItem("Set velocity vector");
         CheckMenuItem showSpeed=new CheckMenuItem("Show speed");
 
@@ -92,7 +92,7 @@ public class PlanetaryGUI {
         Label radiusLabel=new Label("Radius:");
         Label speedLabel=new Label("Animation\nspeed:");
         Label velocityLabel=new Label("Speed\nscale:");
-        Button play=new Button("PAUSE");
+        Button play=new Button("PLAY");
         Slider speed=new Slider();
         Slider velocityScale=new Slider();
 
