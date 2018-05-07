@@ -10,7 +10,7 @@ public class GV {
 
     static double SCALE = 1e-9; // 1e-9 = around 1 Mercury RADIUS per 600px width
     static int animationSpeed = 12; // for( x times simulate)
-    static boolean animate = false;
+    static boolean animate = true;
 
     static double time=0;
 }

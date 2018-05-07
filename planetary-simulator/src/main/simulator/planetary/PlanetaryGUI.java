@@ -92,7 +92,7 @@ public class PlanetaryGUI {
         Label radiusLabel=new Label("Radius:");
         Label speedLabel=new Label("Animation\nspeed:");
         Label velocityLabel=new Label("Speed\nscale:");
-        Button play=new Button("PLAY");
+        Button play=new Button("PAUSE");
         Slider speed=new Slider();
         Slider velocityScale=new Slider();
 
